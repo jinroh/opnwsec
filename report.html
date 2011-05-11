@@ -55,18 +55,50 @@ This stack-overflow attack didn't succeed on SUN systems, since the fingerd vers
 
 <h4>Weak passwords</h4>
 <p>
-Another way for the worm to connect to new hosts was to try to launch a remote shell with <code style="inlinecode">rsh</code> using the username and password of users on the infected machine. The weak point used by the worm here is that <code>/etc/passwd</code>
+Another way for the worm to connect to new hosts was to try to launch a remote shell with <code>rsh</code> using the username and password of users on the infected machine. The weak point used by the worm here is that <code>/etc/passwd</code> was publicly readable. Therefore, it was able to &ldquo;brute-force&rdquo; salted passwords by matching strings, and not through the system input. The mode of the <code>/etc/passwd</code> file is one the main security hole the worm takes advantage of.
+</p>
+<p>
+Additional question this worm brings up is the weakness of users' passwords. According to a study<sup><a href="#study">[4]</a></sup>, 30% of the passwords were guessed by trying passwords with informations from the user like it's username, first name or full name.
 </p>
 
 <h3>The worm map</h3>
+<p>
+It's possible to understand quite easily the process of the worm by taking a high level overview. Morris worm's only objective is to duplicate on other machines by using the flaws and weaknesses already presented. The worm is also deliberately designed to make it difficult to stop or captured.
+</p>
+<p>
+Let's take a look, step by step, to the architecture of the Morris worm. To begin the tour, we will start when the worm files have been compiled and launched on a target. In other words, the first instruction of the <code>main</code> function is our starting point
+</p>
+
+<h4>Initialization</h4>
+<p>
+First the worm initiates the objects it needs and try to hide its presence :
+<ul>
+<li>changes its process name to <code>sh</code>, which a very common duplicated process for shells</li>
+<li>set the size of its core dump to zero to prevent investigation of its code</li>
+<li>destroy its binary version from the disk</li>
+<li>loads the objects put in parameters from files in memory (into the <code>objects</code> global variable), encrypts them and finally deletes them from disk</li>
+<li>changes of process group and kills his parent process which created this version of the worm</li>
+</ul>
+If the initialization process of the objects fails, the worm stops. The objects the worm stores will be used later to infest other system, they are essentials and can be source code or compiled objects.
+</p>
+
+<h4>Spreading</h4>
+<p>
+Now the main goal of the worm is in the first place to find other hosts on the network and then to find a way to open a remote shell on these hosts to execute code and infest the system.
+</p>
+<p class="">
+
+</p>
+<h3></h3>
 
 <h2>Discussion, aftermath, what have we learn, conclusion...</h2>
 
 <h2>References</h2>
 <ul>
 <li><strong>The What, Why, and How of the 1988 Internet Worm</strong> by Tom Darby [http://www.snowplow.org/tom/worm/worm.html]</li>
-<li><strong>A REPORT ON THE INTERNET WORM</strong> by Bob Page [http://www.ee.ryerson.ca/~elf/hack/iworm.html]</li>
+<li><strong>A report on the internet worm</strong> by Bob Page [http://www.ee.ryerson.ca/~elf/hack/iworm.html]</li>
 <li><strong>The Internet Worm Program: An Analysis</strong> by Eugene H. Spafford</li>
+<li id="study"><strong>UNIX Operating System Security</strong> by Grampp, Fred. T. and Robert H. Morris</li>
 <li><strong>stackoverflow.com</strong> question 1799670</li>
 </ul>
 </body>
