@@ -167,7 +167,7 @@ This function contains many flaws, where it cannot detect other worms, that led 
 
 <h3>Host infection process</h3>
 <p>
-Whenever a shell is open into a host, the server worm tries to duplicates himself. The server worm uses a the a vector program stored in its <code>objects</code> global variable. The source of this program is written on the host, into the <code>/tmp</code> directory with a random number in its name. It is then compiled and run on the host through the shell.
+Whenever a shell is open into a host, the server worm tries to duplicates himself. The server worm uses a the a vector program stored in its <code>objects</code> global variable. The source of this program is written on the host, into the <code>/usr/tmp</code> directory with a random number in its name. It is then compiled and run on the host through the shell.
 </p>
 <p>
 The vector program initiates a connection with the server worm and two binary files (contained in the <code>objects</code> array of the server worm) of the worm is uploaded on the new host: a VAX version and a SUN3 version. After copying these files, the server worm try to launch the two binary files with the three objects as parameters.
