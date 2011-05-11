@@ -87,7 +87,7 @@ If the initialization process of the objects fails, the worm stops. The objects 
 Now the main goal of the worm is in the first place to find other hosts on the network and then to find a way to open a remote shell on these hosts to execute code and infest the system.
 </p>
 <p>
-Before trying to find hosts, the worm tries to find if it's already launched on the machine by sending &ldquo;magical&rdquo; numbers using its own protocol on ports of localhost. If it finds a process which respond with the good number, it would stop. Except for 1 out of 7 worms, randomly chosen, which would continue anyway. This technique prevent from fake worm processes that would stop the spawning of new worms.
+Before trying to find hosts, the worm tries to find if it's already launched on the machine by sending &ldquo;magical&rdquo; numbers using its own protocol on port 23357 of the loopback interface. If it finds a process which respond with the good number, it would stop. Except for 1 out of 7 worms, randomly chosen, which would continue anyway. This technique prevent from fake worm processes that would stop the spawning of new worms.
 </p>
 <p>
 The worm instantiates global arrays which stores hosts and gateways of the network. It uses them as databases of potential victims, marking them as infected or immune whether it already infected them or failed its attack.
@@ -96,12 +96,43 @@ The worm instantiates global arrays which stores hosts and gateways of the netwo
 To fill these variables, the worm uses <code>ioctl</code> calls for interfaces, <code>netstat</code> to get a list of gateways or even generates random ip addresses on a subnet using a particular netmask.
 </p>
 <p>
-After having retrieved informations on the network and hosts, checking if hosts were reachable by initiating a <code>telnet</code> connection, the worm starts infecting some of those hosts, chosen randomly.
+After having retrieved informations on the network and hosts, checking if hosts were reachable by initiating a <code>telnet</code> connection, the worm starts infecting some of those hosts, chosen randomly, using three technics.
 </p>
 
 <h4>Infect hosts</h4>
+<p>
+We will just focus here on how the worm initiates a shell with the remote host, and not how the worm is transmitted.
+</p>
+<p>
+The worm initiates a series of three techniques in this order :
+<ul>
+	<li>tries to run a remote shell on the host using <code>rsh</code></li>
+	<li>tries to attack the host with the <code>fingerd</code> stackoverflow</li>
+	<li>uses the sendmail <code>debug</code> option to execute a remote shell</li>
+</ul>
+If one of this technique works out, the host is marked as infected and the worm is being sent. Otherwise, the host is marked as immune, since no attacks has succeeded.
+</p>
 
 <h4>Cracksome</h4>
+<p>
+After this first collection of attacks, the worm will try to find out new hosts using users informations. It reads through <code>/.rhosts</code> and <code>/etc/hosts.equiv</code> to find equivalent hosts as well as <code>/etc/passwd</code> to retrieve users' name and read through their <code>~/.forward</code> file which contains additional hosts name.
+</p>
+<p>
+The worm now will try to break the password of users, guessing that if they used it on this machine, they might have chosen the same on their other accounts. To guess passwords, the worm will try passwords, encrypt them using its own cryptographic method, and comparing the salt with the one in <code>/etc/passwd</code>.
+</p>
+<p>
+It proceeds into three steps :
+<ul>
+<li>tries simple passwords like <em>username</em>, <em>usernameusername</em>, <em>emanresu</em>...</li>
+<li>uses a dictionary of 432 passwords stored in memory</li>
+<li>uses each words in the <code>/usr/dict/words</code> file</li>
+</ul>
+</p>
+
+<p>
+If a password is being discovered, the worm initiate a remote shell with <code>rsh</code> on the user's hosts with the username and password.
+</p>
+
 <h2>Discussion, aftermath, what have we learn, conclusion...</h2>
 
 <h2>References</h2>
