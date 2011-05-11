@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Internet worm, technical details and aftermath</title>
+
 </head>
 <body>
 
@@ -25,7 +26,10 @@ In order to understand the success of this worm, let's first take a look at the 
 The sendmail program is a mailer shipped with BSD systems that supports many transfer protocols such as <abbr title="Simple Mail Transfer Protocol">SMTP</abbr>. It is mainly used as a daemon process which permanently listens to the #25 TCP port, in order to retrieve incoming mails by handling requests from remote mailers.
 </p>
 <p>
-Sendmail has a DEBUG flag – compiled by default at the time – which facilitates some works for system administrators. The dangerous part of the feature is that it allowed someone to send a message to a process 
+Sendmail has a DEBUG flag &ndash; activated by default in the compilation process at the time &ndash; which facilitates maintenance and configuration for system administrators. The dangerous part of the feature is that it allowed someone to send a message to a process rather than a user. Used accurately, with the proper recipient, the worm was able to execute arbitrary code.
+</p>
+<p>
+The underlying issue raised by this attack is the lack of knowledge and skill of most of administrators upon widely-spread tools. It is possible to prevent this flaw by editing configuration files.
 </p>
 
 <h5>finger daemon</h5>
@@ -41,7 +45,7 @@ Sendmail has a DEBUG flag – compiled by default at the time – which facilita
 
 <h3>The worm map</h3>
 
-<h2></h2>
+<h2>Discussion, aftermath, what have we learn, conclusion...</h2>
 
 </body>
 </html>
