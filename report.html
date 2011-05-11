@@ -7,9 +7,6 @@ body {
 	font-family: ;
 }
 
-code.inlinecode {
-	display: inline;
-}
 code.blockcode {
 	display: block;
 }
@@ -50,7 +47,7 @@ The underlying issue raised by this attack is the lack of knowledge and skill of
 <stong>fingerd</strong> is a simplistic daemon to send &ldquo;human oriented&rdquo; and textual informations. This program handles remote requests on TCP port #79 to transmit user informations over the network such as full name, login name or email.
 </p>
 <p>
-The finger program uses the <code class="inlinecode">gets(char *)</code> function from the Standard C Library to receive the input string argument. However, this routine doesn't check for bounds by itself and lets the user overwrite the buffer if no additional control is made. The Morris worm takes advantage of this lack by passing a argument which overwrite the 512 character buffer of fingerd and writes into the system stack, changing the return address pointed by the <code class="inlinecode">main</code> function, to launch a remote shell.
+The finger program uses the <code>gets(char *)</code> function from the Standard C Library to receive the input string argument. However, this routine doesn't check for bounds by itself and lets the user overwrite the buffer if no additional control is made. The Morris worm takes advantage of this lack by passing a argument which overwrite the 512 character buffer of fingerd and writes into the system stack, changing the return address pointed by the <code>main</code> function, to launch a remote shell.
 </p>
 <p>
 This stack-overflow attack didn't succeed on SUN systems, since the fingerd version should have been compromised without the same exact pattern. The worm should have been extended to work on is SUN version.
@@ -58,7 +55,7 @@ This stack-overflow attack didn't succeed on SUN systems, since the fingerd vers
 
 <h4>Weak passwords</h4>
 <p>
-Another way for the worm to connect to new hosts was to try to launch a remote shell with <code style="inlinecode">rsh</code> using the username and password of users of the infected machine. In order to find this password 
+Another way for the worm to connect to new hosts was to try to launch a remote shell with <code style="inlinecode">rsh</code> using the username and password of users on the infected machine. The weak point used by the worm here is that <code>/etc/passwd</code>
 </p>
 
 <h3>The worm map</h3>
