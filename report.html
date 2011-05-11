@@ -1,6 +1,20 @@
 <!DOCTYPE>
 <html>
 <head>
+
+<style type="text/css">
+body {
+	font-family: ;
+}
+
+code.inlinecode {
+	display: inline;
+}
+code.blockcode {
+	display: block;
+}
+</style>
+
 <title>Internet worm, technical details and aftermath</title>
 
 </head>
@@ -17,7 +31,7 @@ The <strong>Internet worm</strong>, also known as <em>Morris worm</em>, was the 
 <h2>Technical details</h2>
 <h3>Major security issues</h3>
 <p>
-In order to understand the success of this worm, let's first take a look at the main security flaws and weaknesses it exploited.
+<em>Morris worm</em> spread using many approaches to infect new systems. In order to understand the success of this worm, let's first take a look at the main security flaws and weaknesses it exploited.
 </p>
 
 <h4>Flaws</h4>
@@ -29,16 +43,26 @@ The sendmail program is a mailer shipped with BSD systems that supports many tra
 Sendmail has a DEBUG flag &ndash; activated by default in the compilation process at the time &ndash; which facilitates maintenance and configuration for system administrators. The dangerous part of the feature is that it allowed someone to send a message to a process rather than a user. Used accurately, with the proper recipient, the worm was able to execute arbitrary code.
 </p>
 <p>
-The underlying issue raised by this attack is the lack of knowledge and skill of most of administrators upon widely-spread tools. It is possible to prevent this flaw by editing configuration files.
+The underlying issue raised by this attack is the lack of knowledge and skill of most of administrators upon widely-spread tools like sendmail. It is possible to prevent this flaw only by editing configuration files. But it also points out the complexity of configuring such very complex services. 
 </p>
 
-<h5>finger daemon</h5>
-<p></p>
+<h5>fingerd daemon</h5>
+<p>
+<stong>fingerd</strong> is a simplistic daemon to send &ldquo;human oriented&rdquo; and textual informations. This program handles remote requests on TCP port #79 to transmit user informations over the network such as full name, login name or email.
+</p>
+<p>
+The finger program uses the <code class="inlinecode">gets(char *)</code> function from the Standard C Library to receive the input string argument. However, this routine doesn't check for bounds by itself and lets the user overwrite the buffer if no additional control is made. The Morris worm takes advantage of this lack by passing a argument which overwrite the 512 character buffer of fingerd and writes into the system stack to launch a remote shell to launch itself.
+</p>
+
+<h5>rsh</h5>
+<p>
+
+</p>
 
 <h4>Users errors</h4>
 <h5>Easy passwords</h5>
 <p>
-	
+
 </p>
 
 <h5>Root process</h5>
