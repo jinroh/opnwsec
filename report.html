@@ -86,11 +86,22 @@ If the initialization process of the objects fails, the worm stops. The objects 
 <p>
 Now the main goal of the worm is in the first place to find other hosts on the network and then to find a way to open a remote shell on these hosts to execute code and infest the system.
 </p>
-<p class="">
-
+<p>
+Before trying to find hosts, the worm tries to find if it's already launched on the machine by sending &ldquo;magical&rdquo; numbers using its own protocol on ports of localhost. If it finds a process which respond with the good number, it would stop. Except for 1 out of 7 worms, randomly chosen, which would continue anyway. This technique prevent from fake worm processes that would stop the spawning of new worms.
 </p>
-<h3></h3>
+<p>
+The worm instantiates global arrays which stores hosts and gateways of the network. It uses them as databases of potential victims, marking them as infected or immune whether it already infected them or failed its attack.
+</p>
+<p>
+To fill these variables, the worm uses <code>ioctl</code> calls for interfaces, <code>netstat</code> to get a list of gateways or even generates random ip addresses on a subnet using a particular netmask.
+</p>
+<p>
+After having retrieved informations on the network and hosts, checking if hosts were reachable by initiating a <code>telnet</code> connection, the worm starts infecting some of those hosts, chosen randomly.
+</p>
 
+<h4>Infect hosts</h4>
+
+<h4>Cracksome</h4>
 <h2>Discussion, aftermath, what have we learn, conclusion...</h2>
 
 <h2>References</h2>
