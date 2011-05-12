@@ -199,7 +199,32 @@ The vector program initiates a connection with the server worm and two binary fi
 Finally a new worm is running into the host, and starts its initialization.
 </p>
 
-<h2>Discussion, aftermath, what have we learn, conclusion...</h2>
+<h2>Discussion and lessons learned</h2>
+<h3>A Harmless Tool</h3>
+<p>According to Morris, the idea behind the creation of the Worm was merely to gauge the size the internet then, by spreading from computer to computer. However, what should have been a harmless intellectual exercise turned out to be virulent denial of service attack.</p>
+<p>Considering the Worm&#39;s supposed end, it should only have infected each computer once. To this end, the worm would check, before infecting a given computer, whether there already were a copy of itself running there. But if it had simply been implemented that way, an easy counter to the worm would have been a process that would make itself be seen as a worm by real worms. To prevent that, the worm was directed to infect even an already infected computer one time out of seven.</p>
+<p>As he admitted though, no simulation had been run to adjust the rate. Because of that and the fast spreading of the worm, many computers were infected more than one time. Some were infected times enough to make it impossible for the computer to be used.</p>
+<p>So all the damage was caused by a fault in the worm&#39;s code, which may have been corrected if the version that leaked had not been an uncompleted one.</p>
+<h3>Consequences on the general security-awareness</h3>
+
+<p>It was reported that around ten percent of the computers attached to the internet, which numbered around 60,000, were infected by the worm. So about 6,000 of UNIX machines <q>casualties</q>. The damage had an overall cost of 10-100 millions of dollars, according to the US Government Accountability Office.</p>
+<p>Following this disaster, the assumed reliability of the internet was put to question and the notion of <q>Network Security</q>, in its turn, started to spread and infect many minds.</p>
+<h3>The main technical lessons the worm taught us</h3>
+<h4>The too complex configuration of tools</h4>
+<p>The sendmail tool which was one of the most used tools available then, was too complex to configure. For such a widely-spread tool, sendmail was too opaque. It should have been designed to be more user-friendly and easier to configure.</p>
+<p>Its flow is said to be that it allowed to send a message not only to an user but also to a process. But it could be configured, by someone with the appropriate knowledge, to prevent this. The fact that is had not been done only proves that maintenance of this tool was too complex.</p>
+
+<h4>File permissions</h4>
+<p>A major flaw of the LINUX machines then, was that the file containing the encrypted passwords <b>/etc/psswrd</b> was freely readable by any user. It allowed the worm to compare various encryptions of likely passwords with the file contents without ever raising any kind of warning.</p>
+<p>The obvious lesson there is that access to files should only be granted to users who need it. Nowadays this file has been replaced with the <b>/etc/shadow</b> file, which can not be accessed.</p>
+<h4>Obvious passwords</h4>
+<p>Many passwords were trivially related to the user name. The worm sometimes only had to test the username, the inverted username or the blank password to get results. This lesson however has not yet been learned by everyone. Too many people still chose easy-to-guess passwords, which gives plenty of opportunities for badly intentioned hackers.</p> 
+<h4>The buffer overflow problem</h4>
+
+<p>One of the exploits used buffer overflow in the <code>gets(char*)</code> function. Since bounds were not checked, the worm was able to pass an argument that overwrote the 512 character buffer of <i>fingerd</i> to write into the system stack. Thus, was the worm able to launch a remote shell of his own.</p>
+<h4>Logging information</h4>
+<p>Most systems lacked appropriate logs, which prevented effective tracking of the worm&#39;s actions on the infected machines.</p>
+
 
 <h2>References</h2>
 <ul>
